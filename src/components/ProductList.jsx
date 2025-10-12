@@ -37,6 +37,9 @@ const ProductList = () => {
     },
   ];
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
+
   return (
     <div className="container mx-auto p-4">
       {/* Aplicamos Flexbox/Grid para el listado */}
