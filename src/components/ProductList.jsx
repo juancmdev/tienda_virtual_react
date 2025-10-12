@@ -18,6 +18,23 @@ const ProductList = () => {
         "https://http2.mlstatic.com/D_NQ_NP_2X_752793-MCO89741436545_082025-F.webp",
       precio: 29.99,
     },
+    {
+      id: 3,
+      nombre: "Producto 3",
+      descripcion: "Descripción del Producto 3",
+      urlImagen:
+        "https://http2.mlstatic.com/D_NQ_NP_2X_752793-MCO89741436545_082025-F.webp",
+      precio: 5.99,
+    },
+
+    {
+      id: 4,
+      nombre: "Producto 4",
+      descripcion: "Descripción del Producto 4",
+      urlImagen:
+        "https://http2.mlstatic.com/D_NQ_NP_2X_752793-MCO89741436545_082025-F.webp",
+      precio: 5.99,
+    },
   ];
 
   return (
