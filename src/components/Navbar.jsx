@@ -14,25 +14,25 @@ const Navbar = () => {
             {/* Aquí irán los enlaces: Home, Productos, Carrito */}
             <ul className="flex gap-4">
               <li>
-                <a
-                  href="/productos"
+                <Link to="/" className="hover:text-orange-400 transition">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/productos"
                   className="hover:text-orange-400 transition"
                 >
                   Productos
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/carrito" className="hover:text-orange-400 transition">
-                  Carrito
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/contacto"
+                <Link
+                  to="/contacto"
                   className="hover:text-orange-400 transition"
                 >
                   Contacto
-                </a>
+                </Link>
               </li>
             </ul>
           </nav>
