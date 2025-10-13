@@ -1,17 +1,64 @@
-//Importar la librería express
-const express = require("express");
-//Cargar dotenv para las variables de entorno
-require("dotenv").config();
+const express = require("express"); //Importar la librería express
+require("dotenv").config(); //Cargar dotenv para las variables de entorno
+const mongoose = require("mongoose"); //Importar mongoose
+const cors = require("cors"); //Importamos cors
+const app = express(); //Crear una instancia de la aplicación Express
+const PORT = 5000; // Usamos el puerto 5000 para el Backend
+const Producto = require("./models/Product"); //Importamos el modelo
 
-// 2. Importar mongoose
-const mongoose = require("mongoose");
+// Middleware:
+//Habilitar CORS para que el Frontend pueda comunicarse
+app.use(cors());
 
-//Crear una instancia de la aplicación Express
-const app = express();
+//Habilitar la lectura de datos JSON en el cuerpo de las peticiones
+app.use(express.json());
 
-//Definir el puerto
-// Usamos el puerto 5000 para el Backend
-const PORT = 5000;
+//RUTAS DE LA API
+
+app.get("/api/productos", async (req, res) => {
+  try {
+    // 1. Usa find() para buscar TODOS los productos de la DB
+    // Usamos await porque la operación de base de datos es ASÍNCRONA
+    const productos = await Producto.find();
+
+    // 2. Si la búsqueda es exitosa, envía los productos como respuesta JSON
+    res.json(productos);
+  } catch (error) {
+    // 3. Si hay un error, respondemos con el código 500 (Error Interno del Servidor)
+    console.error("Error al obtener productos:", error);
+    res.status(500).json({
+      mensaje: "Error interno del servidor al obtener productos.",
+      error: error.message,
+    });
+  }
+});
+
+//Ruta para crear un nuevo producto
+app.post("/api/productos", async (req, res) => {
+  try {
+    const nuevoProducto = new Producto(req.body);
+    await nuevoProducto.save();
+    res.status(201).json(nuevoProducto);
+  } catch (error) {
+    console.error("Error al crear un nuevo producto:", error);
+
+    // Verificación de Mongoose: ¿Es un error de validación (ej. faltó el nombre)?
+    if (error.name === "ValidationError") {
+      // Si es error de validación (datos faltantes/incorrectos), usamos el código 400 (Bad Request)
+      res.status(400).json({
+        mensaje:
+          "Error de validación. Asegúrate de incluir todos los campos obligatorios.",
+        error: error.message,
+      });
+    } else {
+      // Si es cualquier otro error (conexión, interno, etc.), usamos 500 (Internal Server Error)
+      res.status(500).json({
+        mensaje: "Error interno del servidor al crear un nuevo producto.",
+        error: error.message,
+      });
+    }
+  }
+});
 
 // Función para conectar a MongoDB
 const connectDB = async () => {

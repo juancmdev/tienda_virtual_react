@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ProductCard from "./ProductCard";
+import AdminPage from "../pages/AdminPage";
 
 const productos = [
   {
