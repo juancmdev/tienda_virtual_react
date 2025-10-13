@@ -5,6 +5,7 @@ const cors = require("cors"); //Importamos cors
 const app = express(); //Crear una instancia de la aplicación Express
 const PORT = 5000; // Usamos el puerto 5000 para el Backend
 const Producto = require("./models/Product"); //Importamos el modelo
+const User = require("./models/User"); //Importamos el modelo
 
 // Middleware:
 //Habilitar CORS para que el Frontend pueda comunicarse
@@ -59,6 +60,22 @@ app.post("/api/productos", async (req, res) => {
     }
   }
 });
+
+//Ruta para crear la cuenta de administrador
+app -
+  post("/api/auth/register", async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      // 1. Crear nueva instancia de usuario
+      const user = new User({ email, password });
+      // 2. Guardar el usuario (Mongoose se encarga de llamar a bcrypt)
+      await user.save();
+      // 3. Responder con éxito
+      res
+        .status(201)
+        .json({ mensaje: "Usuario creado exitosamente", nuevoUsuario });
+    } catch (error) {}
+  });
 
 // Función para conectar a MongoDB
 const connectDB = async () => {
