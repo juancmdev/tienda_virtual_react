@@ -6,6 +6,7 @@ const app = express(); //Crear una instancia de la aplicación Express
 const PORT = 5000; // Usamos el puerto 5000 para el Backend
 const Producto = require("./models/Product"); //Importamos el modelo
 const User = require("./models/User"); //Importamos el modelo
+const bcrypt = require("bcrypt");
 
 // Middleware:
 //Habilitar CORS para que el Frontend pueda comunicarse
@@ -62,20 +63,62 @@ app.post("/api/productos", async (req, res) => {
 });
 
 //Ruta para crear la cuenta de administrador
-app -
-  post("/api/auth/register", async (req, res) => {
-    try {
-      const { email, password } = req.body;
-      // 1. Crear nueva instancia de usuario
-      const user = new User({ email, password });
-      // 2. Guardar el usuario (Mongoose se encarga de llamar a bcrypt)
-      await user.save();
-      // 3. Responder con éxito
-      res
-        .status(201)
-        .json({ mensaje: "Usuario creado exitosamente", nuevoUsuario });
-    } catch (error) {}
-  });
+app.post("/api/auth/register", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    // 1. Crear nueva instancia de usuario
+    const user = new User({ email, password });
+    // 2. Guardar el usuario (Mongoose se encarga de llamar a bcrypt)
+    await user.save();
+    // 3. Responder con éxito
+    res.status(201).json({ mensaje: "Usuario creado exitosamente", user });
+  } catch (error) {
+    console.error("Error al crear un nuevo usuario:", error);
+
+    // 1. Verificamos si es un error de Mongoose por unicidad (email duplicado)
+    if (error.code === 11000) {
+      // Si el código es 11000, respondemos con 400 Bad Request
+      res.status(400).json({
+        mensaje:
+          "Error de registro: El email ya está en uso. Intenta con otro.",
+        error: error.message,
+      });
+    } else {
+      // 2. Si es cualquier otro error (validación fallida, conexión, etc.)
+      res.status(500).json({
+        mensaje: "Error interno del servidor al crear el usuario.",
+        error: error.message,
+      });
+    }
+  }
+});
+
+//Ruta para iniciar sesión
+app.post("/api/auth/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    // 1. Encontrar al usuario
+    const user = await User.findOne({ email });
+    // 2. Si el usuario no existe, devolvemos 404. Usamos un mensaje genérico por seguridad.
+    if (!user) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado" });
+    }
+    // 3. Comparar la contraseña ingresada (plano) con el hash guardado (user.password)
+    const isMatch = await bcrypt.compare(password, user.password);
+    // 4. Si las contraseñas no coinciden, devolvemos 401 Unauthorized.
+    if (!isMatch) {
+      return res.status(401).json({ mensaje: "Contraseña incorrecta" });
+    }
+
+    res.json({ mensaje: "¡Inicio de sesión exitoso! (Token pendiente)" });
+  } catch (error) {
+    console.error("Error al iniciar sesión:", error);
+    res.status(500).json({
+      mensaje: "Error interno del servidor al iniciar sesión.",
+      error: error.message,
+    });
+  }
+});
 
 // Función para conectar a MongoDB
 const connectDB = async () => {
