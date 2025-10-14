@@ -4,6 +4,7 @@ import AdminPage from "./pages/AdminPage";
 import Layout from "./layout/Layout";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/productos" element={<ProductList />} />
           <Route path="contacto" element={<Contact />} />
         </Route>
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </>
   );

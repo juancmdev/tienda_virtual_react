@@ -111,8 +111,6 @@ app.post("/api/auth/login", async (req, res) => {
       return res.status(401).json({ mensaje: "Contraseña incorrecta" });
     }
 
-    res.json({ mensaje: "¡Inicio de sesión exitoso! (Token pendiente)" });
-
     // Definir el payload
     const payload = {
       id: user._id, // Usamos el ID de MongoDB para identificar al usuario más tarde
@@ -125,6 +123,15 @@ app.post("/api/auth/login", async (req, res) => {
       process.env.JWT_SECRET, // clave secreta!
       { expiresIn: "1h" } //Token expira en una hora
     );
+
+    res.json({
+      mensaje: "¡Inicio de sesión exitoso!",
+      token,
+      user: {
+        id: user._id,
+        email: user.email,
+      },
+    });
   } catch (error) {
     console.error("Error al iniciar sesión:", error);
     res.status(500).json({
