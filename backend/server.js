@@ -7,6 +7,7 @@ const PORT = 5000; // Usamos el puerto 5000 para el Backend
 const Producto = require("./models/Product"); //Importamos el modelo
 const User = require("./models/User"); //Importamos el modelo
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 // Middleware:
 //Habilitar CORS para que el Frontend pueda comunicarse
@@ -111,6 +112,19 @@ app.post("/api/auth/login", async (req, res) => {
     }
 
     res.json({ mensaje: "¡Inicio de sesión exitoso! (Token pendiente)" });
+
+    // Definir el payload
+    const payload = {
+      id: user._id, // Usamos el ID de MongoDB para identificar al usuario más tarde
+    };
+
+    // Generar el token
+    const token = jwt.sign(
+      // El Payload: la información a guardar
+      payload,
+      process.env.JWT_SECRET, // clave secreta!
+      { expiresIn: "1h" } //Token expira en una hora
+    );
   } catch (error) {
     console.error("Error al iniciar sesión:", error);
     res.status(500).json({
