@@ -15,6 +15,8 @@ const ProtectedRoute = ({ children }) => {
     if (!token) {
       // 3. Si no hay token, redirigir
       navigate("/login");
+    } else {
+      setIsLoading(false);
     }
   }, [navigate]); // El array de dependencia asegura que se ejecute solo cuando navigate cambie
 
@@ -26,10 +28,9 @@ const ProtectedRoute = ({ children }) => {
         Verificando sesión...
       </div>
     );
-  } else {
-    // 4. Si el código llega hasta aquí (el token existe), se renderizan los hijos
-    return children;
   }
+  // 4. Si el código llega hasta aquí (el token existe), se renderizan los hijos
+  return children;
 };
 
 export default ProtectedRoute;

@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AdminPage = () => {
+  const navigate = useNavigate();
+
   const [newProduct, setNewProduct] = useState({
     nombre: "",
     descripcion: "",
@@ -63,11 +66,24 @@ const AdminPage = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    navigate("/login");
+  };
+
   return (
     <div className="container mx-auto p-8 max-w-xl">
       <h1 className="text-3xl font-bold mb-6 text-orange-600">
         Panel de Administración
       </h1>
+
+      {/* Botón de Cerrar Sesión */}
+      <button
+        onClick={handleLogout}
+        className="mb-6 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150"
+      >
+        Cerrar Sesión
+      </button>
 
       <form
         className="bg-white p-6 rounded-xl shadow-lg"
