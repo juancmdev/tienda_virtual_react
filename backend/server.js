@@ -72,7 +72,7 @@ app.get("/api/productos", async (req, res) => {
 });
 
 //Ruta para crear un nuevo producto
-app.post("/api/productos", async (req, res) => {
+app.post("/api/productos", verifyToken, async (req, res) => {
   try {
     const nuevoProducto = new Producto(req.body);
     await nuevoProducto.save();
