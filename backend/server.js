@@ -9,7 +9,42 @@ const User = require("./models/User"); //Importamos el modelo
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-// Middleware:
+//-------------------------------------------------------------
+// MIDDLEWARE DE AUTENTICACIÓN
+//-------------------------------------------------------------
+//Middleware para verificar el Token JWT
+const verifyToken = (req, res, next) => {
+  //Obtener el header de autorización
+  const authHeader = req.headers["authorization"];
+
+  //Si no hay header de autorización o no empi3eza con 'Bearer'
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    //403 Forbideen: No tienes permiso
+    return res.status(403).json({
+      mensaje: "Acceso denegado. Token no proporcionado o formato incorrecto.",
+    });
+  }
+
+  //Extraer el token (eliminar, 'Bearer')
+  const token = authHeader.split(" ")[1];
+
+  //Verificar el token usando jwt.verify
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      //401 Unauthorized: El token es inválido (expirado, alterado, etc)
+      return res.status(401).json({
+        mensaje: "Acceso denegado. Token inválido o expirado.",
+      });
+    }
+
+    // Si es válido, adjuntar los datos del usuario (id) a la petición (req, user)
+    req.user = jwt.decoded;
+
+    //Continuar con la ejecución de la ruta
+    next();
+  });
+};
+
 //Habilitar CORS para que el Frontend pueda comunicarse
 app.use(cors());
 
