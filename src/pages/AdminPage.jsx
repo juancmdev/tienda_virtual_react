@@ -28,6 +28,16 @@ const AdminPage = () => {
     e.preventDefault();
 
     try {
+      //Leer el token desde localStorage
+      const token = localStorage.getItem("authToken");
+
+      //¡Validación de seguridad
+      if (!token) {
+        alert("No estás autenticado. Por favor, inicia sesión de nuevo.");
+        navigate("/login");
+        return; //Detiene la función si no hay token
+      }
+
       const response = await fetch("http://localhost:5000/api/productos", {
         // 1. Método HTTP: Es POST para CREAR un recurso
         method: "POST",
@@ -35,6 +45,8 @@ const AdminPage = () => {
         // 2. Encabezados: Le decimos al Backend que el cuerpo es JSON
         headers: {
           "Content-Type": "application/json",
+          //Adjuntar el token JWT al header de autorización
+          Authorization: `Bearer ${token}`,
         },
 
         // 3. Cuerpo: Convertimos el objeto de React a una cadena JSON
