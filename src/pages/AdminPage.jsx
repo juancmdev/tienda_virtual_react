@@ -80,7 +80,7 @@ const AdminPage = () => {
       {/* Botón de Cerrar Sesión */}
       <button
         onClick={handleLogout}
-        className="mb-6 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150"
+        className="mb-6 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 cursor-pointer"
       >
         Cerrar Sesión
       </button>
@@ -152,7 +152,7 @@ const AdminPage = () => {
         {/* Botón de Envío */}
         <button
           type="submit"
-          className="w-full bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150"
+          className="w-full bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 cursor-pointer"
         >
           Agregar Producto
         </button>
