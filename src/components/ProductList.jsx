@@ -40,6 +40,7 @@ import ProductCard from "./ProductCard";
 const ProductList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true); // Opcional: estado de carga
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -51,6 +52,8 @@ const ProductList = () => {
         }
       } catch (error) {
         console.error("Error al obtener productos:", error);
+      } finally {
+        setLoading(false); // Opcional: Terminamos la carga
       }
     };
 
@@ -64,9 +67,6 @@ const ProductList = () => {
 
   return (
     <div className="container mx-auto p-8">
-      <h1 className="text-3xl font-bold mb-6 text-center">
-        Nuestros Productos
-      </h1>
       {/*Barra de búsqueda */}
       <input
         type="text"
@@ -74,6 +74,10 @@ const ProductList = () => {
         placeholder="Buscar Productos..."
         className="w-full p-3 mb-6 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
       />
+
+      <h1 className="text-3xl font-bold mb-6 text-center">
+        Nuestros Productos
+      </h1>
 
       {/* Grid de productos filtrados */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
