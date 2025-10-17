@@ -71,7 +71,7 @@ app.get("/api/productos", async (req, res) => {
   }
 });
 
-//Ruta para crear un nuevo producto
+//Ruta para crear un nuevo producto (¡Protegida)
 app.post("/api/productos", verifyToken, async (req, res) => {
   try {
     const nuevoProducto = new Producto(req.body);
