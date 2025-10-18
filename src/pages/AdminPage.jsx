@@ -132,6 +132,27 @@ const AdminPage = () => {
           ></textarea>
         </div>
 
+        {/* Campo Categoría */}
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Categoría
+          </label>
+          <select
+            name="categoria"
+            value={newProduct.categoria}
+            onChange={handleChange}
+            className="cursor-pointer shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+          >
+            <option value="" disabled>
+              Selecciona una categoría
+            </option>
+            <option value="computadoras">Computadoras</option>
+            <option value="accesorios">Accesorios</option>
+            <option value="monitores">Monitores</option>
+            <option value="software">Software</option>
+          </select>
+        </div>
+
         {/* Campo URL Imagen */}
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
