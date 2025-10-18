@@ -65,6 +65,14 @@ const ProductList = () => {
     producto.nombre.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  if (loading) {
+    return <div className="text-center p-20 text-xl">Cargando productos</div>; // Opcional: Muestra un mensaje de carga
+  }
+
+  if (products.length === 0 && !loading) {
+    return <div className="text-center p-20 text-xl">No hay productos</div>;
+  }
+
   return (
     <div className="container mx-auto p-8">
       {/*Barra de búsqueda */}
