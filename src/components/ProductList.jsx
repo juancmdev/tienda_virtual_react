@@ -37,6 +37,7 @@ import ProductCard from "./ProductCard";
 //   },
 // ];
 
+// El componente solo se encarga de mostrar la lista pública.
 const ProductList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState([]);
@@ -96,12 +97,14 @@ const ProductList = () => {
         {productosFiltrados.map((producto) => (
           // Usamos la propiedad `key` con el id único del producto
           <ProductCard
-            key={producto.id}
+            key={producto.id} // Usamos _id de MongoDB
             id={producto.id}
             nombre={producto.nombre}
             descripcion={producto.descripcion}
             urlImagen={producto.urlImagen}
             precio={producto.precio}
+            // ⚠️ NO PASAMOS PROPS DE GESTIÓN (handleDelete, isAdmin)
+            isAdmin={false} // Le decimos a ProductCard que es la vista pública
           />
         ))}
       </div>
