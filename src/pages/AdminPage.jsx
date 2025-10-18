@@ -146,7 +146,7 @@ const AdminPage = () => {
             <option value="" disabled>
               Selecciona una categoría
             </option>
-            <option value="computadoras">Computadoras</option>
+            <option value="Ambientadores">Ambientadores</option>
             <option value="accesorios">Accesorios</option>
             <option value="monitores">Monitores</option>
             <option value="software">Software</option>
