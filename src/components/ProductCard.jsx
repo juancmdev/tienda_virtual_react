@@ -1,3 +1,5 @@
+import { formatCurrency } from "../utils/formatters";
+
 const ProductCard = ({ id, nombre, descripcion, urlImagen, precio }) => {
   // Ahora podemos usar nombre, precio, etc., directamente
   return (
@@ -18,7 +20,7 @@ const ProductCard = ({ id, nombre, descripcion, urlImagen, precio }) => {
         <h2 className="text-xl font-semibold mb-1 truncate">{nombre}</h2>
         <p className="text-gray-600 text-sm mb-3 line-clamp-2">{descripcion}</p>
         <p className="text-2xl font-bold text-orange-600">
-          ${precio.toFixed(2)}
+          {formatCurrency(precio.toFixed(2))}
         </p>
       </div>
 
