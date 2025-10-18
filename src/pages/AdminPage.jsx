@@ -9,6 +9,7 @@ const AdminPage = () => {
     descripcion: "",
     urlImagen: "",
     precio: 0,
+    categoría: "",
   });
 
   const handleChange = (e) => {

@@ -70,7 +70,11 @@ const ProductList = () => {
   }
 
   if (products.length === 0 && !loading) {
-    return <div className="text-center p-20 text-xl">No hay productos</div>;
+    return (
+      <div className="text-center p-20 text-xl">
+        No hay productos para mostrar.
+      </div>
+    );
   }
 
   return (
