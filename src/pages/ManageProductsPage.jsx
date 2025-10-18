@@ -6,6 +6,7 @@ const ManageProductsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true); //Estado de carga
+  const [editingProduct, setEditingProduct] = useState(null);
 
   //Función DELETE (ruta está protegida con JWT)
   const handleDelete = async (productId) => {
