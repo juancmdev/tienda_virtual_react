@@ -195,6 +195,20 @@ const connectDB = async () => {
   }
 };
 
+//Ruta para eliminar productos
+app.delete("/api/productos/:id", async (req, res) => {
+  try {
+    const productoEliminado = await Producto.findByIdAndDelete(req.params.id);
+    if (!productoEliminado) {
+      return res.status(404).json({ mensaje: "Producto no encontrado" });
+    }
+    res.json({ mensaje: "Producto eliminado exitosamente" });
+  } catch (error) {
+    console.error("Error al eliminar el producto");
+    res.status(500).json({ mensaje: "Error interno del servidor" });
+  }
+});
+
 // Finalmente, llamamos a la función
 connectDB();
 
