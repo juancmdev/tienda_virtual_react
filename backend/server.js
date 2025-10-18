@@ -195,17 +195,20 @@ const connectDB = async () => {
   }
 };
 
-//Ruta para eliminar productos
-app.delete("/api/productos/:id", async (req, res) => {
+//Ruta para eliminar productos (¡PROTEGIDA!)
+app.delete("/api/productos/:id", verifyToken, async (req, res) => {
   try {
-    const productoEliminado = await Producto.findByIdAndDelete(req.params.id);
+    const productId = req.params.id;
+    const productoEliminado = await Producto.findByIdAndDelete(productId);
     if (!productoEliminado) {
       return res.status(404).json({ mensaje: "Producto no encontrado" });
     }
-    res.json({ mensaje: "Producto eliminado exitosamente" });
+    res.status(200).json({ mensaje: "Producto eliminado exitosamente" });
   } catch (error) {
-    console.error("Error al eliminar el producto");
-    res.status(500).json({ mensaje: "Error interno del servidor" });
+    console.error("Error al eliminar el producto", error);
+    res
+      .status(500)
+      .json({ mensaje: "Error interno del servidor al eliminar el producto" });
   }
 });
 
