@@ -97,7 +97,7 @@ const ProductList = () => {
         {productosFiltrados.map((producto) => (
           // Usamos la propiedad `key` con el id único del producto
           <ProductCard
-            key={producto.id} // Usamos _id de MongoDB
+            key={producto._id} // Usamos _id de MongoDB
             id={producto.id}
             nombre={producto.nombre}
             descripcion={producto.descripcion}

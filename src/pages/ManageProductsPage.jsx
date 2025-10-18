@@ -1,12 +1,51 @@
 import { useState, useEffect } from "react";
 // Importar ProductCard y formatCurrency
 import ProductCard from "../components/ProductCard";
-import { formatCurrency } from "../utils/formatters";
 
 const ManageProductsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true); // Opcional: estado de carga
+  const [loading, setLoading] = useState(true); //Estado de carga
+
+  //Función DELETE (ruta está protegida con JWT)
+  const handleDelete = async (productId) => {
+    if (!window.confirm("¿Estás seguro de que quieres eliminar este producto?"))
+      return;
+
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      alert("Acción no autorizada. Por favor, inicia sesión de nuevo.");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/productos/${productId}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (response.ok) {
+        alert(`✅ Producto eliminado exitosamente!`);
+        // Actualizar la UI: Eliminar el producto del estado
+        setProducts((prevProducts) => {
+          return prevProducts.filter((p) => p._id !== productId);
+        });
+      } else {
+        const errorData = await response.json();
+        alert(
+          `❌ Error al eliminar producto: ${
+            errorData.mensaje || "Respuesta de servidor no exitosa"
+          }`
+        );
+      }
+    } catch (error) {
+      console.error("Error al eliminar el producto:", error);
+      alert("❌ Error de conexión con el servidor.");
+    }
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -62,14 +101,16 @@ const ManageProductsPage = () => {
         {productosFiltrados.map((producto) => (
           // Usamos la propiedad `key` con el id único del producto
           <ProductCard
-            key={producto.id} // Usamos _id de MongoDB
-            id={producto.id}
+            key={producto._id} // Usamos _id de MongoDB
+            id={producto._id}
             nombre={producto.nombre}
             descripcion={producto.descripcion}
             urlImagen={producto.urlImagen}
             precio={producto.precio}
-            // ⚠️ NO PASAMOS PROPS DE GESTIÓN (handleDelete, isAdmin)
-            isAdmin={false} // Le decimos a ProductCard que es la vista pública
+            //FUNCIÓN DE ELIMINAR
+            handleDelete={handleDelete}
+            //⚠️ INDICAR QUE ESTA ES LA VISTA DE ADMIN
+            isAdmin={true} // Le decimos a ProductCard que es la vista pública
           />
         ))}
       </div>
