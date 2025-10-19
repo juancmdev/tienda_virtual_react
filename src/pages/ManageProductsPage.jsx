@@ -174,20 +174,20 @@ const ManageProductsPage = () => {
   return (
     <div className="container mx-auto p-8">
       <div className="flex justify-end gap-3 items-center mb-6">
-        {/* Botón de Cerrar Sesión */}
-        <button
-          onClick={handleLogout}
-          className="mb-6 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 cursor-pointer"
-        >
-          Cerrar Sesión
-        </button>
-
         {/* Botón para Crear Producto */}
         <button
           onClick={handleCreateProduct}
           className="mb-6 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus-shadow-outline transition durration-150 cursor-pointer"
         >
           Crear producto
+        </button>
+
+        {/* Botón de Cerrar Sesión */}
+        <button
+          onClick={handleLogout}
+          className="mb-6 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 cursor-pointer"
+        >
+          Cerrar Sesión
         </button>
       </div>
 

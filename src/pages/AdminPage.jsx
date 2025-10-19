@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { GiExitDoor } from "react-icons/gi";
 
 const AdminPage = () => {
   const navigate = useNavigate();
@@ -89,27 +90,29 @@ const AdminPage = () => {
   };
 
   return (
-    <div className="container mx-auto p-8 max-w-xl">
+    <div className="container mx-auto p-2 max-w-xl">
+      <div className="flex justify-end gap-3 items-center mb-6">
+        {/* Botón ir a actualizar */}
+        <button
+          onClick={handleGoToUpdate}
+          className="mb-6 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus-shadow-outline transition durration-150 cursor-pointer"
+        >
+          Actualizar productos
+        </button>
+
+        {/* Botón de Cerrar Sesión */}
+        <button
+          onClick={handleLogout}
+          className="flex mb-6 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 cursor-pointer"
+        >
+          <GiExitDoor className="mr-1" />
+          Cerrar Sesión
+        </button>
+      </div>
+
       <h1 className="text-3xl font-bold mb-6 text-orange-600">
         Panel de Administración
       </h1>
-
-      {/* Botón de Cerrar Sesión */}
-      <button
-        onClick={handleLogout}
-        className="mb-6 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 cursor-pointer"
-      >
-        Cerrar Sesión
-      </button>
-
-      {/* Botón ir a actualizar */}
-      <button
-        onClick={handleGoToUpdate}
-        className="mb-6 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 cursor-pointer"
-      >
-        Actualizar productos
-      </button>
-
       <form
         className="bg-white p-6 rounded-xl shadow-lg"
         onSubmit={handleSubmit}
