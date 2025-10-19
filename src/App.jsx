@@ -9,6 +9,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ManageProductsPage from "./pages/ManageProductsPage";
 import { CartProvider } from "./context/CartContext";
 import ShoppingCartPage from "./pages/ShoppingCartPage";
+import PaymentConfirmationPage from "./pages/PaymentConfirmationPage";
 
 function App() {
   //Estado global para el carrito de compras
@@ -23,6 +24,10 @@ function App() {
           <Route path="/productos" element={<ProductList />} />
           <Route path="/carrito" element={<ShoppingCartPage />} />
           <Route path="/contacto" element={<Contact />} />
+          <Route
+            path="/confirmacion-pago"
+            element={<PaymentConfirmationPage />}
+          />
 
           {/* RUTAS DE AUTENTICACIÓN (Fuera del Layout si lo necesitas) */}
           <Route path="/login" element={<LoginPage />} />
