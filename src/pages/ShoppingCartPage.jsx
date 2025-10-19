@@ -42,9 +42,11 @@ const ShoppingCartPage = () => {
           {cart.map((item) => (
             <div
               key={item.id}
-              className="flex justify-between items-center border-b py-4"
+              className="grid grid-cols-5 items-center border-b py-4"
             >
-              <span className="font-semibold mr-1">{item.nombre}</span>
+              <span className="col-span-3 font-semibold mr-1">
+                {item.nombre}
+              </span>
 
               {/* Cantidad */}
               <div className="flex items-center space-x-4 mr-2">
