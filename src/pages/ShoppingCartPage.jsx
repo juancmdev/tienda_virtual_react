@@ -44,10 +44,30 @@ const ShoppingCartPage = () => {
               key={item.id}
               className="flex justify-between items-center border-b py-4"
             >
-              <span className="font-semibold">{item.nombre}</span>
-              <span className="text-gray-600 font-bold">
-                Cant: {item.cantidad}
-              </span>
+              <span className="font-semibold mr-1">{item.nombre}</span>
+
+              {/* Cantidad */}
+              <div className="flex items-center space-x-4 mr-2">
+                <label
+                  htmlFor={`quantity-${item.id}`}
+                  className="text-gray-600"
+                >
+                  Cantidad:
+                </label>
+                <input
+                  id={`quantity-${item.id}`}
+                  type="number"
+                  min="1"
+                  value={item.cantidad} // Muestra el estado actual
+                  onChange={(e) => {
+                    // Llama a la función del contexto.
+                    // Usamos parseInt() para asegurarnos de que el valor es un número entero
+                    updateQuantity(item.id, parseInt(e.target.value));
+                  }}
+                  className="w-16 p-1 border border-gray-300 rounded text-center"
+                />
+              </div>
+
               <span className="font-bold">
                 {formatCurrency(item.precio * item.cantidad)}
               </span>
