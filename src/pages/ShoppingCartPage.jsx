@@ -22,7 +22,10 @@ const ShoppingCartPage = () => {
   const handleCheckout = () => {
     clearCart();
 
-    // 2. Mensaje de simulación de pago exitoso
+    //Mensaje de simulación de pago exitoso
+    alert("¡Pago realizado con éxito! 🎉");
+
+    //Enviar al usuario a la página de confirmación de pago
     navigate("/confirmacion-pago");
   };
 

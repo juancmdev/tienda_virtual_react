@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+
+  const { setToken, setIsAuthenticated, setUser } = useAuth();
 
   const [login, setLogin] = useState({
     email: "",
@@ -34,17 +37,26 @@ const LoginPage = () => {
 
       // ... lógica de respuesta
       if (!response.ok) {
-        // 1. Si no es OK, lanzamos un error con el mensaje que viene del Backend
+        //Si no es OK, lanzamos un error con el mensaje que viene del Backend
         // (ej. 'Credenciales inválidas')
         throw new Error(data.mensaje || "Error desconocido al iniciar sesión.");
       } else {
-        // 1. Guardar el Token en localStorage. Usaremos 'authToken' como nombre de clave.
+        // Guardar el Token en localStorage. Usaremos 'authToken' como nombre de clave.
         localStorage.setItem("authToken", data.token); // data.token viene del Backend
 
         // (Opcional, pero útil) Guardar el email del usuario
         localStorage.setItem("userEmail", data.user.email);
 
-        // 2. Redirigir al panel de administración
+        //Contexto: Guardar el token en el estado global
+        setToken(data.token); // 👈 NUEVO
+
+        //Contexto: Guardar la información del usuario en el estado global
+        setUser(data.user); // 👈 NUEVO
+
+        //Contexto: Marcar como autenticado
+        setIsAuthenticated(true); // 👈 NUEVO
+
+        //Redirigir al panel de administración
         navigate("/admin"); // Redirige a la ruta /admin
 
         alert("✅ Sesión iniciada correctamente.");
