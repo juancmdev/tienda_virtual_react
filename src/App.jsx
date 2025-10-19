@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import ProductList from "./components/ProductList";
 import AdminPage from "./pages/AdminPage";
@@ -8,47 +7,51 @@ import Contact from "./pages/Contact";
 import LoginPage from "./pages/LoginPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ManageProductsPage from "./pages/ManageProductsPage";
+import { CartProvider } from "./context/CartContext";
 
 function App() {
   //Estado global para el carrito de compras
-  const [cart, setCart] = useState([]);
 
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        {/* RUTAS PÚBLICAS */}
-        <Route path="/productos" element={<ProductList />} />
-        <Route path="contacto" element={<Contact />} />
+    // ⚠️ Envolvemos todo en el Provider
 
-        {/* RUTAS DE AUTENTICACIÓN (Fuera del Layout si lo necesitas) */}
-        <Route path="/login" element={<LoginPage />} />
+    <CartProvider>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          {/* RUTAS PÚBLICAS */}
+          <Route path="/productos" element={<ProductList />} />
+          <Route path="contacto" element={<Contact />} />
 
-        {/* ÁREA PROTEGIDA DEL ADMINISTRADOR */}
+          {/* RUTAS DE AUTENTICACIÓN (Fuera del Layout si lo necesitas) */}
+          <Route path="/login" element={<LoginPage />} />
 
-        {/* 1. RUTA PRINCIPAL ADMIN: Lista de Gestión (R, U, D) */}
-        {/* El administrador aterriza aquí para ver la lista de productos */}
-        <Route index element={<Home />} />
-        <Route
-          path="admin"
-          element={
-            <ProtectedRoute>
-              <ManageProductsPage />
-            </ProtectedRoute>
-          }
-        />
+          {/* ÁREA PROTEGIDA DEL ADMINISTRADOR */}
 
-        {/* 2. SUBRUTA ADMIN: Formulario de Creación (C) */}
-        {/* Si el administrador quiere crear un nuevo producto */}
-        <Route
-          path="admin/crear"
-          element={
-            <ProtectedRoute>
-              <AdminPage /> {/* Tu formulario de creación original */}
-            </ProtectedRoute>
-          }
-        />
-      </Route>
-    </Routes>
+          {/* 1. RUTA PRINCIPAL ADMIN: Lista de Gestión (R, U, D) */}
+          {/* El administrador aterriza aquí para ver la lista de productos */}
+          <Route index element={<Home />} />
+          <Route
+            path="admin"
+            element={
+              <ProtectedRoute>
+                <ManageProductsPage />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* 2. SUBRUTA ADMIN: Formulario de Creación (C) */}
+          {/* Si el administrador quiere crear un nuevo producto */}
+          <Route
+            path="admin/crear"
+            element={
+              <ProtectedRoute>
+                <AdminPage /> {/* Tu formulario de creación original */}
+              </ProtectedRoute>
+            }
+          />
+        </Route>
+      </Routes>
+    </CartProvider>
   );
 }
 

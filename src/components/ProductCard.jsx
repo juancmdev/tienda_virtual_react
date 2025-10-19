@@ -1,5 +1,6 @@
 import { formatCurrency } from "../utils/formatters";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { useCart } from "../context/CartContext";
 
 const ProductCard = ({
   id,
@@ -11,6 +12,24 @@ const ProductCard = ({
   handleEdit, // Función para editar (solo en Admin)
   isAdmin, // Booleano para distinguir la vista
 }) => {
+  // ----------------------------------------------------
+  // USAMOS EL HOOK PERSONALIZADO useCart
+  // ----------------------------------------------------
+  const { handleAddToCart } = useCart();
+
+  const handleProductClick = () => {
+    // Creamos el objeto con los datos esenciales del producto
+    const productToAdd = {
+      id,
+      nombre,
+      precio,
+      // (puedes añadir otros campos como urlImagen si los necesitas para la vista del carrito)
+    };
+
+    // Llamamos a la función del contexto. La lógica de incremento/añadir está en CartContext.
+    handleAddToCart(productToAdd);
+  };
+
   // Ahora podemos usar nombre, precio, etc., directamente
   return (
     <div className="w-64 bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300">
@@ -54,7 +73,10 @@ const ProductCard = ({
           </div>
         ) : (
           /* VISTA PÚBLICA: Botón de Compra */
-          <button className="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 transition">
+          <button
+            onClick={handleProductClick}
+            className="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 transition cursor-pointer"
+          >
             Agregar al Carrito
           </button>
         )}

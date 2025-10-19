@@ -11,7 +11,7 @@ export const CartProvider = ({ children }) => {
   // ----------------------------------------------------
   // Lógica para añadir un producto (más robusta)
   // ----------------------------------------------------
-  const handleAddCart = (productToAdd) => {
+  const handleAddToCart = (productToAdd) => {
     setCart((prevCart) => {
       // Buscamos si el producto ya existe en el carrito
       const existingItem = cart.find((item) => item.id === productToAdd.id);
@@ -37,12 +37,12 @@ export const CartProvider = ({ children }) => {
   const contextValue = {
     cart,
     // Exponemos la función con lógica robusta para que ProductCard la llame
-    handleAddCart,
+    handleAddToCart,
     setCart, // (Mantener por si lo necesitamos directamente)
   };
   return (
     // El Provider envuelve a los hijos y les da acceso al contextValue
-    <cartContext.Provider value={contextValue}>{children}</cartContext.Provider>
+    <CartContext.Provider value={contextValue}>{children}</CartContext.Provider>
   );
 };
 
