@@ -82,6 +82,13 @@ export const CartProvider = ({ children }) => {
   };
 
   // ----------------------------------------------------
+  // Función para limpiar el carrito (clearCart)
+  // ----------------------------------------------------
+  const clearCart = () => {
+    setCart([]); // ¡Reestablece el array a vacío!
+  };
+
+  // ----------------------------------------------------
   // Definir el "Valor" que se compartirá globalmente
   // ----------------------------------------------------
   const contextValue = {
@@ -91,6 +98,7 @@ export const CartProvider = ({ children }) => {
     setCart, // (Mantener por si lo necesitamos directamente)
     updateQuantity,
     removeFromCart,
+    clearCart,
   };
   return (
     // El Provider envuelve a los hijos y les da acceso al contextValue

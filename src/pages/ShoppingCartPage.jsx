@@ -8,6 +8,8 @@ const ShoppingCartPage = () => {
   const {
     cart,
     updateQuantity,
+    removeFromCart,
+    clearCart,
     // Agregaremos más funciones aquí pronto (ej. removeFromCart, updateQuantity)
   } = useCart();
 
@@ -75,7 +77,10 @@ const ShoppingCartPage = () => {
                 {formatCurrency(item.precio * item.cantidad)}
               </span>
               {/* Botón para eliminar */}
-              <button className="flex justify-end items center cursor-pointer">
+              <button
+                onClick={() => removeFromCart(item.id)}
+                className="flex justify-end items center cursor-pointer"
+              >
                 <MdDeleteForever className="text-3xl hover:text-orange-600 transition" />
               </button>
             </div>
