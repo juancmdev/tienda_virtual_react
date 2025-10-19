@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import ProductList from "./components/ProductList";
 import AdminPage from "./pages/AdminPage";
@@ -9,6 +10,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ManageProductsPage from "./pages/ManageProductsPage";
 
 function App() {
+  //Estado global para el carrito de compras
+  const [cart, setCart] = useState([]);
+
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
