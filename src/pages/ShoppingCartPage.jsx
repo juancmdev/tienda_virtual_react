@@ -1,6 +1,7 @@
 import { useCart } from "../context/CartContext"; // Hook para acceder al estado
 // ⚠️  Función para dar formato al dinero
 import { formatCurrency } from "../utils/formatters";
+import { MdDeleteForever } from "react-icons/md";
 
 const ShoppingCartPage = () => {
   //Acceder al estado y funciones del Contexto
@@ -42,19 +43,19 @@ const ShoppingCartPage = () => {
           {cart.map((item) => (
             <div
               key={item.id}
-              className="grid grid-cols-5 items-center border-b py-4"
+              className="grid grid-cols-6 items-center border-b py-4"
             >
               <span className="col-span-3 font-semibold mr-1">
                 {item.nombre}
               </span>
 
               {/* Cantidad */}
-              <div className="flex items-center space-x-4 mr-2">
+              <div className="flex justify-end items-center space-x-2 mr-2">
                 <label
                   htmlFor={`quantity-${item.id}`}
                   className="text-gray-600"
                 >
-                  Cantidad:
+                  Cant:
                 </label>
                 <input
                   id={`quantity-${item.id}`}
@@ -70,9 +71,13 @@ const ShoppingCartPage = () => {
                 />
               </div>
 
-              <span className="font-bold">
+              <span className="font-bold flex justify-end items-center">
                 {formatCurrency(item.precio * item.cantidad)}
               </span>
+              {/* Botón para eliminar */}
+              <button className="flex justify-end items center cursor-pointer">
+                <MdDeleteForever className="text-3xl hover:text-orange-600 transition" />
+              </button>
             </div>
           ))}
         </div>
