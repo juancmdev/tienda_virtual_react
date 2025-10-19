@@ -2,8 +2,11 @@ import { useCart } from "../context/CartContext"; // Hook para acceder al estado
 // ⚠️  Función para dar formato al dinero
 import { formatCurrency } from "../utils/formatters";
 import { MdDeleteForever } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const ShoppingCartPage = () => {
+  const navigate = useNavigate();
+
   //Acceder al estado y funciones del Contexto
   const {
     cart,
@@ -20,7 +23,7 @@ const ShoppingCartPage = () => {
     clearCart();
 
     // 2. Mensaje de simulación de pago exitoso
-    alert("✅ ¡Pago realizado con éxito! Tu carrito ha sido vaciado.");
+    navigate("/confirmacion-pago");
   };
 
   // 2. Lógica para calcular el total
@@ -107,7 +110,10 @@ const ShoppingCartPage = () => {
             <span>{formatCurrency(totalCalculado)}</span>
           </div>
 
-          <button className="mt-6 w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition">
+          <button
+            onClick={handleCheckout}
+            className="mt-6 w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition cursor-pointer"
+          >
             Proceder al Pago
           </button>
         </div>
