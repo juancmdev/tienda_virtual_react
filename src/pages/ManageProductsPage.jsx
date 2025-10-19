@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 // Importar ProductCard y formatCurrency
 import ProductCard from "../components/ProductCard";
 
@@ -7,6 +8,8 @@ const ManageProductsPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true); //Estado de carga
   const [editingProduct, setEditingProduct] = useState(null);
+
+  const navigate = useNavigate();
 
   //Función DELETE (ruta está protegida con JWT)
   const handleDelete = async (productId) => {
@@ -140,6 +143,11 @@ const ManageProductsPage = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    navigate("/login");
+  };
+
   //--------------------------------------------------------------------
   //Lógica de filtrado
   //---------------------------------------------------------------------
@@ -159,8 +167,30 @@ const ManageProductsPage = () => {
     );
   }
 
+  const handleCreateProduct = () => {
+    navigate("/admin/crear");
+  };
+
   return (
     <div className="container mx-auto p-8">
+      <div className="flex justify-end gap-3 items-center mb-6">
+        {/* Botón de Cerrar Sesión */}
+        <button
+          onClick={handleLogout}
+          className="mb-6 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 cursor-pointer"
+        >
+          Cerrar Sesión
+        </button>
+
+        {/* Botón para Crear Producto */}
+        <button
+          onClick={handleCreateProduct}
+          className="mb-6 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus-shadow-outline transition durration-150 cursor-pointer"
+        >
+          Crear producto
+        </button>
+      </div>
+
       {/* ⚠️ Punto de anclaje para el scroll (opcional) */}
       <div id="edit-form-anchor"></div>
 
@@ -228,6 +258,21 @@ const ManageProductsPage = () => {
                 <option value="monitores">Monitores</option>
                 <option value="software">Software</option>
               </select>
+            </div>
+
+            {/* Campo URL Imagen */}
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                URL Imagen
+              </label>
+              <input
+                type="text"
+                name="urlImagen"
+                value={editingProduct.urlImagen}
+                onChange={handleEditChange}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+                placeholder="http://..."
+              />
             </div>
 
             {/* Campo Precio */}

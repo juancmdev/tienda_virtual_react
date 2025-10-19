@@ -212,6 +212,37 @@ app.delete("/api/productos/:id", verifyToken, async (req, res) => {
   }
 });
 
+//----------------------------------------------------------------------
+//RUTA PARA EDITAR PRODUCTOS (!PROTEGIDA CON VERIFYTOKEN)
+//----------------------------------------------------------------------
+app.put("/api/productos/:id", verifyToken, async (req, res) => {
+  try {
+    const productId = req.params.id;
+
+    // findByIdAndUpdate:
+    // 1. Busca por ID (productId)
+    // 2. Aplica los cambios de req.body (nombre, precio, descripcion, etc.)
+    // 3. { new: true } -> Le dice a Mongoose que devuelva el documento ACTUALIZADO.
+    const productoActualizado = await Producto.findByIdAndUpdate(
+      productId,
+      req.body,
+      { new: true, runValidators: true }
+    );
+    if (!productoActualizado) {
+      res.status(404).json({ mensaje: "Producto no encontrado" });
+    }
+    // Si todo es exitoso, enviamos el producto actualizado de vuelta al frontend
+    res.status(200).json(productoActualizado);
+  } catch (error) {
+    console.error("Error al actualizar el producto", error);
+    // Este catch captura errores de Mongoose (ej: ID inválido o fallos de validación)
+    res.status(500).json({
+      mensaje: "Error interno del servidor al actualizar el producto",
+      error: error.message,
+    });
+  }
+});
+
 // Finalmente, llamamos a la función
 connectDB();
 

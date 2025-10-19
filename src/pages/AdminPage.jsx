@@ -25,6 +25,11 @@ const AdminPage = () => {
     }));
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    navigate("/login");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -79,9 +84,8 @@ const AdminPage = () => {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    navigate("/login");
+  const handleGoToUpdate = () => {
+    navigate("/admin");
   };
 
   return (
@@ -96,6 +100,14 @@ const AdminPage = () => {
         className="mb-6 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 cursor-pointer"
       >
         Cerrar Sesión
+      </button>
+
+      {/* Botón ir a actualizar */}
+      <button
+        onClick={handleGoToUpdate}
+        className="mb-6 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 cursor-pointer"
+      >
+        Actualizar productos
       </button>
 
       <form
