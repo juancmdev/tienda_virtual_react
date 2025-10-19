@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { FaShoppingCart } from "react-icons/fa";
 
 const Navbar = () => {
   return (
@@ -32,6 +33,14 @@ const Navbar = () => {
                   className="hover:text-orange-400 transition"
                 >
                   Contacto
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/carrito"
+                  className="hover:text-orange-400 transition"
+                >
+                  <FaShoppingCart className="text-xl" />
                 </Link>
               </li>
             </ul>

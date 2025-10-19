@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 // Crear el contexto
 export const CartContext = createContext();
@@ -6,7 +6,26 @@ export const CartContext = createContext();
 // Crear el Proveedor (Provider) que gestionará el estado del carrito
 export const CartProvider = ({ children }) => {
   // Definimos el estado del carrito aquí
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    // 1. Intentamos obtener la cadena de texto guardada
+    const savedCart = localStorage.getItem("cartItems");
+
+    // 2. Si hay algo guardado (savedCart no es null):
+    if (savedCart) {
+      // Devolvemos el array de JavaScript que estaba guardado
+      return JSON.parse(savedCart);
+    }
+
+    // 3. Si no hay nada, devolvemos el array vacío inicial
+    return [];
+  });
+  useEffect(() => {
+    // 1. Convertimos el array 'cart' a una cadena de texto JSON
+    const cartString = JSON.stringify(cart);
+
+    // 2. Guardamos esa cadena de texto en localStorage con la clave 'cartItems'
+    localStorage.setItem("cartItems", cartString);
+  }, [cart]);
 
   // ----------------------------------------------------
   // Lógica para añadir un producto (más robusta)
@@ -14,7 +33,7 @@ export const CartProvider = ({ children }) => {
   const handleAddToCart = (productToAdd) => {
     setCart((prevCart) => {
       // Buscamos si el producto ya existe en el carrito
-      const existingItem = cart.find((item) => item.id === productToAdd.id);
+      const existingItem = prevCart.find((item) => item.id === productToAdd.id);
 
       if (existingItem) {
         // Si existe, incrementamos su cantidad
@@ -25,7 +44,7 @@ export const CartProvider = ({ children }) => {
         );
       } else {
         // Si no existe, agregamos un nuevo elemento al carrito
-        return [...prevCart, { ...productToAdd, quantity: 1 }];
+        return [...prevCart, { ...productToAdd, cantidad: 1 }];
       }
     });
     alert(`🛒 ¡${productToAdd.nombre} añadido al carrito!`);

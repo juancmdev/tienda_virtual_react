@@ -98,7 +98,7 @@ const ProductList = () => {
           // Usamos la propiedad `key` con el id único del producto
           <ProductCard
             key={producto._id} // Usamos _id de MongoDB
-            id={producto.id}
+            id={producto._id}
             nombre={producto.nombre}
             descripcion={producto.descripcion}
             urlImagen={producto.urlImagen}
