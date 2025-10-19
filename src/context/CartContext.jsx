@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 
 // Crear el contexto
-export const cartContext = createContext();
+export const CartContext = createContext();
 
 // Crear el Proveedor (Provider) que gestionará el estado del carrito
 export const CartProvider = ({ children }) => {
@@ -28,11 +28,26 @@ export const CartProvider = ({ children }) => {
         return [...prevCart, { ...productToAdd, quantity: 1 }];
       }
     });
+    alert(`🛒 ¡${productToAdd.nombre} añadido al carrito!`);
   };
+
+  // ----------------------------------------------------
+  // Definir el "Valor" que se compartirá globalmente
+  // ----------------------------------------------------
+  const contextValue = {
+    cart,
+    // Exponemos la función con lógica robusta para que ProductCard la llame
+    handleAddCart,
+    setCart, // (Mantener por si lo necesitamos directamente)
+  };
+  return (
+    // El Provider envuelve a los hijos y les da acceso al contextValue
+    <cartContext.Provider value={contextValue}>{children}</cartContext.Provider>
+  );
 };
 
-const CartContext = () => {
-  return <div>CartContext</div>;
+// Hook Personalizado (Opcional, pero muy recomendado)
+// Esto hace que el consumo del contexto sea más limpio en los componentes
+export const useCart = () => {
+  return useContext(CartContext);
 };
-
-export default CartContext;
