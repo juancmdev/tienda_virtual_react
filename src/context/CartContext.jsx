@@ -71,6 +71,17 @@ export const CartProvider = ({ children }) => {
   };
 
   // ----------------------------------------------------
+  // Lógica para eliminar un producto (removeFromCart)
+  // ----------------------------------------------------
+  const removeFromCart = (id) => {
+    setCart((prevCart) => {
+      // Usamos filter para devolver todos los items cuyo id NO sea igual al id que pasamos.
+      // Esto crea un nuevo array que excluye el item a eliminar.
+      return prevCart.filter((item) => item.id !== id);
+    });
+  };
+
+  // ----------------------------------------------------
   // Definir el "Valor" que se compartirá globalmente
   // ----------------------------------------------------
   const contextValue = {
@@ -79,6 +90,7 @@ export const CartProvider = ({ children }) => {
     handleAddToCart,
     setCart, // (Mantener por si lo necesitamos directamente)
     updateQuantity,
+    removeFromCart,
   };
   return (
     // El Provider envuelve a los hijos y les da acceso al contextValue
