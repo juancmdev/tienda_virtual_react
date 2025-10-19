@@ -51,6 +51,26 @@ export const CartProvider = ({ children }) => {
   };
 
   // ----------------------------------------------------
+  // Lógica para actualizar la cantidad de un producto
+  // ----------------------------------------------------
+  const updateQuantity = (id, newQuantity) => {
+    setCart((prevCart) => {
+      return prevCart.map((item) => {
+        // 1. Si encontramos el producto por ID:
+        if (item.id === id) {
+          // 👈 Usamos .id, que es la clave consistente
+          // 2. Devolvemos la nueva copia con la cantidad actualizada
+          // Math.max(1, newQuantity) asegura que la cantidad mínima sea 1
+          const safeQuantity = Math.max(1, newQuantity);
+          return { ...item, cantidad: safeQuantity };
+        }
+        // 3. Devolvemos el ítem sin cambios
+        return item;
+      });
+    });
+  };
+
+  // ----------------------------------------------------
   // Definir el "Valor" que se compartirá globalmente
   // ----------------------------------------------------
   const contextValue = {
@@ -58,6 +78,7 @@ export const CartProvider = ({ children }) => {
     // Exponemos la función con lógica robusta para que ProductCard la llame
     handleAddToCart,
     setCart, // (Mantener por si lo necesitamos directamente)
+    updateQuantity,
   };
   return (
     // El Provider envuelve a los hijos y les da acceso al contextValue

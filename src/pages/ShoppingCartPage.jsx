@@ -6,6 +6,7 @@ const ShoppingCartPage = () => {
   //Acceder al estado y funciones del Contexto
   const {
     cart,
+    updateQuantity,
     // Agregaremos más funciones aquí pronto (ej. removeFromCart, updateQuantity)
   } = useCart();
 
