@@ -13,6 +13,16 @@ const ShoppingCartPage = () => {
     // Agregaremos más funciones aquí pronto (ej. removeFromCart, updateQuantity)
   } = useCart();
 
+  //---------------------------------------------------------------------
+  // Función para simular pago y vaciar carrito
+  //---------------------------------------------------------------------
+  const handleCheckout = () => {
+    clearCart();
+
+    // 2. Mensaje de simulación de pago exitoso
+    alert("✅ ¡Pago realizado con éxito! Tu carrito ha sido vaciado.");
+  };
+
   // 2. Lógica para calcular el total
   // Aquí es donde multiplicarás (precio * cantidad) por cada item y sumarás
   const totalCalculado = cart.reduce((acc, item) => {
