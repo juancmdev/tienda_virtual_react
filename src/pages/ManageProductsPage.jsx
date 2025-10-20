@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// Importar ProductCard y formatCurrency
 import ProductCard from "../components/ProductCard";
+import { useAuth } from "../context/AuthContext";
 
 const ManageProductsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -10,6 +10,13 @@ const ManageProductsPage = () => {
   const [editingProduct, setEditingProduct] = useState(null);
 
   const navigate = useNavigate();
+
+  const { handleLogout } = useAuth();
+
+  const onLogoutClick = () => {
+    handleLogout(); // 1. Limpia el estado global y localStorage
+    navigate("/login"); // 2. Redirige, usando el hook que SÍ es válido aquí
+  };
 
   //Función DELETE (ruta está protegida con JWT)
   const handleDelete = async (productId) => {
@@ -143,11 +150,6 @@ const ManageProductsPage = () => {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    navigate("/login");
-  };
-
   //--------------------------------------------------------------------
   //Lógica de filtrado
   //---------------------------------------------------------------------
@@ -184,7 +186,7 @@ const ManageProductsPage = () => {
 
         {/* Botón de Cerrar Sesión */}
         <button
-          onClick={handleLogout}
+          onClick={onLogoutClick}
           className="mb-6 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 cursor-pointer"
         >
           Cerrar Sesión

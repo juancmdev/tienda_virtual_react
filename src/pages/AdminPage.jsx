@@ -1,9 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GiExitDoor } from "react-icons/gi";
+import { useAuth } from "../context/AuthContext";
 
 const AdminPage = () => {
   const navigate = useNavigate();
+  const { handleLogout } = useAuth();
+
+  const onLogoutClick = () => {
+    handleLogout(); // 1. Limpia el estado global y localStorage
+    navigate("/login"); // 2. Redirige, usando el hook que SÍ es válido aquí
+  };
 
   const [newProduct, setNewProduct] = useState({
     nombre: "",
@@ -24,11 +31,6 @@ const AdminPage = () => {
       // Esta es la clave: [name] usa el valor de la variable 'name' como la clave del objeto.
       [name]: newValue,
     }));
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    navigate("/login");
   };
 
   const handleSubmit = async (e) => {
@@ -102,7 +104,7 @@ const AdminPage = () => {
 
         {/* Botón de Cerrar Sesión */}
         <button
-          onClick={handleLogout}
+          onClick={onLogoutClick}
           className="flex mb-6 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 cursor-pointer"
         >
           <GiExitDoor className="mr-1" />
